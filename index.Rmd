@@ -41,18 +41,17 @@ htmltools::tagList(rmarkdown::html_dependency_font_awesome())
 .columnwide[
   ### 1) Scope of the package
   ### 2) POMA workflow (with examples)
-  ### &emsp; 2.1) Data formatting
-  ### &emsp; 2.2) Preprocessing
-  ### &emsp; 2.3) Exploratory Data Analysis (EDA)
-  ### &emsp; 2.4) Statistical Analysis
-  ### 3) Conclusions
-  ### 4) Next steps...
+  ### 3) POMAShiny
+  ### 4) Summary
+  ### 5) Future work...
 ]
 
 .columnnarrow[
-<img align = "left" src="https://bioc2021.bioconductor.org/img/carousel/BioC2021-v2.png" height="200">
+<img align = "left" src="https://bioc2021.bioconductor.org/img/carousel/BioC2021-v2.png" height="170">
 <br>
-<img align = "right" src="https://images.squarespace-cdn.com/content/v1/5423875be4b03f0c482a58c4/1532953317705-W6TYTE70KG5E6KQEZU1K/ke17ZwdGBToddI8pDm48kNVP8RwsgCc7XlHc2zPQeqdZw-zPPgdn4jUwVcJE1ZvWQUxwkmyExglNqGp0IvTJZUJFbgE-7XRK3dMEBRBhUpxA5wn4368HhrDKfvXqORu9oTEmTJkjlQ2gdQcVngofpWQcE5w-MKnvigIPwIMqpXs/Bioconductor.png?format=750w" height="200">
+<img align = "right" src="https://images.squarespace-cdn.com/content/v1/5423875be4b03f0c482a58c4/1532953317705-W6TYTE70KG5E6KQEZU1K/ke17ZwdGBToddI8pDm48kNVP8RwsgCc7XlHc2zPQeqdZw-zPPgdn4jUwVcJE1ZvWQUxwkmyExglNqGp0IvTJZUJFbgE-7XRK3dMEBRBhUpxA5wn4368HhrDKfvXqORu9oTEmTJkjlQ2gdQcVngofpWQcE5w-MKnvigIPwIMqpXs/Bioconductor.png?format=750w" height="170">
+<br>
+<img align = "left" src="https://github.com/pcastellanoescuder/POMA/raw/master/man/figures/logo.png" height="170">
 ]
 
 ---
@@ -60,7 +59,7 @@ htmltools::tagList(rmarkdown::html_dependency_font_awesome())
 # Scope of POMA
 
 .center[
-.textboxorange[`POMA` package focuses on <u>**statistical analysis**</u> of metabolomics and proteomics]
+.textboxorange[`POMA` package focuses on <u>**statistical analysis**</u> of metabolomics and proteomics data]
 ]
 
 --
@@ -69,14 +68,14 @@ htmltools::tagList(rmarkdown::html_dependency_font_awesome())
   
 --
   
-  2) Extracting quantitative data from `MSnbase::MSnSet` objects &#10060;
+  2) Extracting quantitative data from Bioconductor objects (`MSnSet`, `SummarizedExperiment`, etc.) &#10060;
 
 --
 
-  3) Using `MSnbase::MSnSet` objects directly (++ reproducibility and interoperability) &#9989;
+  3) Using Bioconductor objects directly (++ reproducibility and interoperability) &#9989;
 
 .center[
-<img align = "center" src="img/figure1.png" width = "80%">
+<img align = "center" src="img/figure1.png" width = "75%">
 ]
 
 ---
@@ -97,7 +96,7 @@ htmltools::tagList(rmarkdown::html_dependency_font_awesome())
 
 .pull-right[
 
-**Features or "_expression data_"**
+**Features or "_concentration data_"**
 
 <img align = "left" src="https://raw.github.com/pcastellanoescuder/POMAShiny/master/app/mds/pix/features.png" height="200">
 
@@ -163,7 +162,8 @@ poma_outliers <- st000284 %>%
   PomaNorm() %>%
   PomaOutliers(do = "analyze")
 
-poma_outliers$polygon_plot + theme(legend.position = "top") | poma_outliers$distance_boxplot + theme(legend.position = "top")
+poma_outliers$polygon_plot + theme(legend.position = "top") + scale_fill_viridis_d() + scale_color_viridis_d() | 
+  poma_outliers$distance_boxplot + theme(legend.position = "top") + scale_fill_viridis_d() + scale_color_viridis_d()
 ```
 
 ]
@@ -410,7 +410,7 @@ raw_MSnSet_data %>%
   PomaImpute(method = "knn") %>%
   PomaNorm(method = "log_pareto") %>% 
   PomaOutliers(do = "clean") %>%
-  PomaLimma(contrast = "CRC-Polyp", covariates = TRUE)
+  PomaLimma(contrast = "CRC-Polyp", covariates = TRUE) #<<
 ```
 
 ```{r, echo = FALSE, warning = FALSE, comment = FALSE, message = FALSE}
@@ -420,7 +420,7 @@ kableExtra::kbl(poma_results[1:5 ,], booktabs = TRUE) %>%
 
 ---
 
-# POMA Shiny version
+# POMAShiny
 
 .center[
 <img align = "center" src="img/pomashiny.png" width="750">
@@ -432,12 +432,12 @@ kableExtra::kbl(poma_results[1:5 ,], booktabs = TRUE) %>%
 
 ---
 
-# Conclusions
+# Summary
 
 --
 
 .font130[
-  - POMA provides a <span style="color:#f38620">**robust**</span>, <span style="color:#f38620">**reproducible**</span>, and <span style="color:#f38620">**user-friendly**</span> workflow for the statistical analysis of mass spectrometry data
+  - POMA provides a <span style="color:#f38620">**robust**</span>, <span style="color:#f38620">**reproducible**</span>, and <span style="color:#f38620">**user-friendly**</span> workflow for the statistical analysis of metabolomics and proteomics data
 ]
 
 --
@@ -460,24 +460,18 @@ kableExtra::kbl(poma_results[1:5 ,], booktabs = TRUE) %>%
 
 ---
 
-# Next steps...
+# Future work...
 
 --
 
 .font130[
-  - Implementation of more functions and methods focusing mainly on multivariate approaches
+  - Implementation of more functions and methods focusing mainly on **predictive** and **multivariate** approaches
 ]
 
 --
 
 .font130[
-  - Explore the feasibility of a new _Bioconductor_ class to store the statistical analysis results, or extend an existing _Bioconductor_ class for this purpose (community feedback and collaborations are indispensable)
-]
-
---
-
-.font130[
-  - Gradually migrate the `MSnbase::MSnSet` structures used by `POMA` to the `QFeatures` structures for mass spectrometry assays included in `QFeatures` package
+  - Migrate from the `MSnbase::MSnSet` structures to the `SummarizedExperiment` ones in order to extend the package to other _omics_ and make the package more interoperable with the Bioconductor environment 
 ]
 
 ---
